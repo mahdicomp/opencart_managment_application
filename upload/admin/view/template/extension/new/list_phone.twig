@@ -1,0 +1,163 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+     <div class="pull-right">
+               <a onclick="$('#form').attr('action', '{{delete}}'); $('#form').attr('target', '_self'); $('#form').submit();"  data-toggle="tooltip" title="{{text_delete}}" class="btn btn-primary">{{text_delete}}</a>
+        </div>
+      <h1>{{Statistics}}</h1>
+    
+    </div>
+  </div>
+  <div class="container-fluid">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+      
+        </div>
+        
+        <div class="panel-body">
+            
+          <div class="row d-flex justify-content-around">
+           <div class="col-sm-3 col-lg-3">
+            <div class="tile tile-primary">
+                <div class="tile-heading"> {{ text_Application_installation_number }} </div>
+                <div class="tile-body"><i class="fa fa-users"></i>
+                    <h2 class="pull-right">{{total_device}}</h2>
+                </div>
+                <div class="tile-footer"> </div>
+            </div>
+           </div>
+           <div class="col-sm-3 col-lg-3">
+            <div class="tile tile-primary">
+                <div class="tile-heading"><i  class="fa fa-history pull-right " id="update" onclick="updateEnable()">{{ text_Update }}</i> {{ text_Application_installation_number_active }} </div>
+                <div class="tile-body"><i class="fa fa-history"></i>
+                    <h2 class="pull-right">{{total_device_enable}}</h2>
+                </div>
+                <div class="tile-footer"> </div>
+            </div>
+           </div>
+           <div class="col-sm-3 col-lg-3">
+            <div class="tile tile-primary">
+                <div class="tile-heading">{{ text_Application_installation_number_android }}</div>
+                <div class="tile-body"><i class="fa fa-android"></i>
+                    <h2 class="pull-right">{{total_android}}</h2>
+                </div>
+                <div class="tile-footer"> </div>
+            </div>
+           </div>
+           <div class="col-sm-3 col-lg-3">
+            <div class="tile tile-primary">
+                <div class="tile-heading">{{ text_Application_installation_number_ios }}</div>
+                <div class="tile-body"><i class="fa fa-apple"></i>
+                    <h2 class="pull-right">{{total_ios}}</h2>
+                </div>
+                <div class="tile-footer"> </div>
+            </div>
+           </div>
+          </div>
+          
+          
+       <form action="" method="post" enctype="multipart/form-data" id="form">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                  <tr> 
+                   <td width="1" style="text-align: center;"><input type="checkbox" onclick="$('input[name*=\'selected\']').attr('checked', this.checked);" /></td>
+                   {#<td class="left">{{ "شماره"}}</td>#}
+                   <td class="left">{{ text_User }}</td>
+                   {#<td class="left">{{ text_ID_User }}</td>#}
+                   {#<td class="left">{{ text_version }}</td>#}
+                   <td class="left">{{ text_OS_Moblie }}</td>
+                   {#<td class="left">{{"پلتفرم گوشی همراه"}}</td>#}
+                   <td class="left">{{ text_Model_Moblie }}</td>
+                   <td class="left">{{ text_factory_Moblie }}</td>
+                   <td class="left">{{ text_version_App }}</td>
+                   <td class="left">{{ text_status }}</td>
+                   <td class="left">{{ text_Last_seen }}</td>
+                   <td class="left">{{ text_Installation_Date }}</td>
+                   <td class="left">{{ text_Management }}</td>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if list_phones %}
+                    {% for list_phone in list_phones %}
+                      <tr>
+                        <td style="text-align: center;">
+                            {% if (list_phone.selected) %}
+                                <input type="checkbox" name="selected[]" value="{{list_phone.token_device}}" checked="checked" />
+                            {% else %}
+                                <input type="checkbox" name="selected[]" value="{{list_phone.token_device}}" />
+                            {% endif %}
+                        </td>
+                        
+                        <td class="left">{{list_phone.customer_name}}</td>
+                        <td class="left">{{list_phone.os}}</td>
+                        <td class="left">{{list_phone.model}}</td>
+                        <td class="left">{{list_phone.manufacturer}}</td>
+                        <td class="left">{{list_phone.versionApp}}</td>
+                        <td class="left">{{list_phone.status_user}}</td>
+                        <td class="left">{{list_phone.date_modified}}</td>
+                        <td class="left">{{list_phone.date_added}}</td>
+                        <td class="left"><div class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="sendnotification('{{list_phone.token}}')">{{ text_Send_notification }}</div> </td>
+                       </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                      <td class="text-center" colspan="8">{{ text_No_content }}</td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <div class="pagination">{{pagination}}</div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+
+</div>
+
+<script type="text/javascript"><!--
+function sendnotification(token_device) {
+	$.ajax({
+		url: 'index.php?route=extension/module/storeapp/sendListphone&token_device='+token_device+'&user_token={{user_token}}',
+		dataType: 'json',
+		data: $('#formpollprice :input'),
+		beforeSend: function() {
+		   
+		},
+		success: function(json) {
+			
+			
+			if (json['output']) {
+			
+				$('#myModal').html(json['output']);
+				
+				
+			}
+		}
+	});	
+}
+
+function updateEnable() {
+	$.ajax({
+		url: 'index.php?route=extension/module/storeapp/checkenable&user_token={{user_token}}',
+		dataType: 'json',
+		data: $('#formpollprice :input'),
+		beforeSend: function() {
+		     $("#update").before('{{ text_Plz_waiting }}');
+		},
+		success: function(json) {
+			
+			
+		location.reload();
+		}
+	});	
+}
+
+//--></script>
+
+{{footer}}

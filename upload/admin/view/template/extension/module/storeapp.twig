@@ -1,0 +1,1674 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-app-setting" data-toggle="tab">{{ text_public_setting }}</a></li>
+            <li><a href="#tab-basic-setting" data-toggle="tab">{{ text_Module_display_settings }}</a></li>
+            <li><a href="#tab-extra-module" data-toggle="tab">{{ tab_extra_module}}</a></li>
+            
+			<li><a href="#tab-home-layout" data-toggle="tab">{{ text_home_layout }}</a></li>
+			  	  <li><a href="#tab-icon" data-toggle="tab">{{ text_icon }}</a></li>
+			  <li><a href="#tab-theme" data-toggle="tab">{{ text_coloring }}</a></li>
+            <li><a href="#tab-contact" data-toggle="tab">{{ text_contact_page_setting }}</a></li>
+            	<li><a href="#tab-intro" data-toggle="tab">{{ text_intro }}</a></li>
+			<li><a href="#tab-notification" data-toggle="tab">{{ text_notification }}</a></li>
+			 <li><a href="#tab-update" data-toggle="tab">{{ text_update }}</a></li>
+           
+          </ul>
+
+          <div class="tab-content">
+		  
+		  
+		  <div class="tab-pane active" id="tab-app-setting">
+              
+             
+              <div class="form-group">
+				<label class="col-sm-4 control-label" for="app_name">{{ text_Application_Home_Title }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="storeapp_name" value="{{ storeapp_name }}" placeholder="{{ text_Application_name }}" id="app_name" class="form-control" />
+                </div>
+				
+              </div>
+              
+              <div class="form-group">
+				<label class="col-sm-4 control-label" for="app_name">{{ text_Application_icon }}</label>
+                <div class="col-sm-6">
+                    <td class="text-left" >
+                    {% for language in languages %}
+                    	
+                          <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+				<a href="" id="thumb-image-icon{{ language.code }}" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_icon[ language.code ] }}" style="width:20%" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                    <input type="hidden" name="storeapp_icon[{{ language.code }}]" value="{{ storeapp_icon[language.code ] }}" id="input-image-icon{{ language.code }}" />
+                    
+                     </div>
+                                             {% endfor %}
+                                         </td>
+                </div>
+				
+              </div>
+              
+			  
+			  <div class="form-group">
+				<label class="col-sm-4 control-label" for="app_name">{{ text_Token_Web_Service_Connection }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="storeapp_token" value="{{ storeapp_token }}" placeholder="{{ text_Token_Web_Service_Connection }}" id="app_name" class="form-control" />
+                </div>
+				
+              </div>
+			  
+			   <div class="form-group">
+				<label class="col-sm-4 control-label" for="app_name">{{ text_server_Key }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="storeapp_serverKey" value="{{ storeapp_serverKey }}" placeholder="{{ text_The_Server_Key_to_connect_to_the_notification }}" id="app_name" class="form-control" />
+                </div>
+				
+              </div>
+			  
+			  
+			  	<div class="form-group">
+				<label class="col-sm-4 control-label" for="app_name">{{ text_number_product_for_module }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="storeapp_limit_home" value="{{ storeapp_limit_home }}" placeholder="10 " id="storeapp_limit_home" class="form-control" />
+                </div>
+				
+              </div>
+			  
+			  <div class="form-group">
+				<label class="col-sm-4 control-label" for="app_name">{{ text_Number_of_products_on_other_pages }}</label>
+                <div class="col-sm-6">
+                  <input type="text" name="storeapp_limit_other" value="{{ storeapp_limit_other }}" placeholder="20" id="storeapp_limit_home" class="form-control" />
+                </div>
+				
+              </div>
+              
+              
+              	 <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_language_input }}</label>
+                <div class="col-sm-6">
+                    <div class="well well-sm" style="height: 150px; overflow: auto;">
+                    {%for language_active in languages %}
+                     <div class="checkbox">
+                      <label>
+                        {% if language_active.code in storeapp_language_active %}
+                        <input type="checkbox" name="storeapp_language_active[]" value="{{ language_active.code }}" checked="checked" />
+                        {{ language_active.name }}
+                        {% else %}
+                        <input type="checkbox" name="storeapp_language_active[]" value="{{ language_active.code }}" />
+                        {{ language_active.name }}
+                        {% endif %}
+                      </label>
+                    </div>
+                    {% endfor %}
+                    
+                  </div>
+                </div>
+				</div>
+				
+					 <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_language_first }}</label>
+                <div class="col-sm-6">
+                    <select name="storeapp_language_first" id="input-status" class="form-control">
+                    {%for language_active in languages %}
+                     
+                        {% if language_active.code in storeapp_language_first %}
+                        <option value="{{ language_active.code }}" selected="selected">  {{ language_active.name }}</option>
+                        {% else %}
+                          <option value="{{ language_active.code }}" >  {{ language_active.name }}</option>
+                        {% endif %}
+                   
+                    {% endfor %}
+                       </select>
+                  
+                </div>
+				</div>
+			  
+			
+				
+			
+				
+			
+			  
+			  <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_Use_module_for_information_on_inventory }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_letmeknow" id="input-status" class="form-control">
+                    {% if storeapp_letmeknow %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+			  </div>
+
+        <div class="form-group">
+          <label class="col-sm-4 control-label" for="input-status">{{ text_downtshowprice }}</label>
+          <div class="col-sm-6">
+            <select name="storeapp_quantity_priceshow" id="input-status" class="form-control">
+              {% if storeapp_quantity_priceshow %} 
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+          </div>
+		 </div>
+		 
+		  <div class="form-group">
+          <label class="col-sm-4 control-label" for="input-status">{{ text_country_show }}</label>
+          <div class="col-sm-6">
+            <select name="storeapp_country_show" id="input-status" class="form-control">
+              {% if storeapp_country_show %} 
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %}
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %}
+              </select>
+          </div>
+		 </div>
+			  
+			  <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_FAQ_in_the_application }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_information_help" id="input-status" class="form-control">
+                     <option value="0">{{ text_none }}</option>
+                      
+                      {% for information in informations %}
+                      {% if information.information_id == storeapp_information_help %}
+                      
+                      <option value="{{ information.information_id }}" selected="selected">{{ information.title }}</option>
+                      
+                      {% else %}
+                      
+                      <option value="{{ information.information_id }}">{{ information.title }}</option>
+                      
+                      {% endif %}
+                      {% endfor %}
+                    
+                    </select>
+                </div>
+			  </div>
+		   <div class="form-group hidden">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_Is_ssl_active_on_your_domain }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_https" id="input-status" class="form-control">
+                   {% if storeapp_https %}
+                     <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+			  </div>
+			  
+			  
+			   <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_Browser_selection }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_inappbrowser" id="input-status" class="form-control">
+                   {% if storeapp_inappbrowser=='_system' %}
+                     <option value="_system" selected="selected">{{ text_Under_the_phone_browser }}</option>
+                    <option value="_blank">{{ text_Under_the_app_browser }} </option>
+                    {% else %}
+                    <option value="_system">{{ text_Under_the_phone_browser }}</option>
+                    <option value="_blank" selected="selected">{{ text_Under_the_app_browser }} </option>
+                    {% endif %}
+                  </select>
+                </div>
+			  </div>
+			  
+			  
+		   <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ entry_status }}</label>
+                <div class="col-sm-6">
+                  <select name="module_storeapp_status" id="input-status" class="form-control">
+                    {% if module_storeapp_status %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+		  
+		  
+		  </div>
+		  
+		  <div class="tab-pane" id="tab-extra-module">
+		      
+		      
+		    <h4> {{ tab_ewallet }}  </h4> 
+		    
+		          <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_status_ewallet_module }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_ewallet" id="input-status" class="form-control" {% if e_wallet_purchase  %}  {% else %} disabled {% endif %}>
+                    {% if storeapp_ewallet %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+				</div>
+				
+		        
+		          <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_select_ewallet_module }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_ewallet_name" id="input-status" class="form-control">
+                    {% if storeapp_ewallet_name=='e-wallet' %}
+                    <option value="e-wallet" selected="selected">{{ text_e_wallet_smart_module }}</option>
+                    <option value="opencart_wallet">{{ text_Opencart_Wallet_System }}</option>
+                    {% else %}
+                    <option value="e-wallet">{{ text_e_wallet_smart_module }}</option>
+                    <option value="opencart_wallet" selected="selected">{{ text_Opencart_Wallet_System }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+				</div>
+		  
+		          <h4> {{ tab_multivendor }}  </h4>  
+		          <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_Use_Multi_vendor_system }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_multivendor" id="input-status" class="form-control" {% if tmd_vendor_purchase  %}  {% else %} disabled {% endif %} >
+                    {% if storeapp_multivendor %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+				</div>
+				<div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_select_multivendor_module }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_multivendor_name" id="input-status" class="form-control">
+                    {% if storeapp_multivendor_name=='tmd-multivendor' %}
+                    <option value="tmd-multivendor" selected="selected">{{ text_tmd_multivendor_module }}</option>
+                    <option value="opencart_multivendor">{{ text_Opencart_multivendor}}</option>
+                    {% else %}
+                    <option value="tmd-multivendor">{{ text_tmd_multivendor_module }}</option>
+                    <option value="opencart_multivendor" selected="selected">{{ text_Opencart_multivendor }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+				</div>
+		        
+		        
+		    <h4> {{ tab_delivery_time }}  </h4> 
+		        
+		          <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_Use_delivery_time }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_delivery_time" id="input-status" class="form-control" {% if delivery_time_purchase  %}  {% else %} disabled {% endif %}>
+                    {% if storeapp_delivery_time %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+				</div>
+				
+				
+				 <h4> {{ section_support_system }}  </h4> 
+		        
+		          <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_Use_support_system }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_ticket" id="input-status" class="form-control"  {% if simple_support_purchase  %}  {% else %} disabled {% endif %}>
+                    {% if storeapp_ticket %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+				</div>
+				
+			 <h4> {{ section_verification_module_with_SMS }}  </h4> 		
+			 	
+				<div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_Use_account_verification_module_with_SMS }}</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_smsverify" id="input-status" class="form-control"  {% if sms_verify_purchase  %}  {% else %} disabled {% endif %}>
+                    {% if storeapp_smsverify %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+			  </div>
+		        
+		        
+		  </div>
+		    <div class="tab-pane" id="tab-home-layout">
+			
+			     <div class="page-header container-fluid">
+                        <div id='message'></div>
+                        <div class="pull-right">
+                            <button type="button" data-name="Add Layout"  data-target="#addLayoutModal" data-toggle="modal" title="{{ Add_Layout }}" class="btn btn-primary">{{ Add_Layout }}</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane {% if (tab is defined and tab == 'log') %} {{ 'active' }} {% endif %}" id="tab-log">
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                              <thead>
+                                <tr>
+                                  <td class="text-left">{{ entry_serial_number }}</td>
+                                  <td class="text-left">{{ entry_layout_id }}</td>
+                                  <td class="text-left">{{ entry_layout_name }}</td>
+                                   <td class="text-left">{{entry_layout_sort }}</td>
+                                  <td class="text-left" width="200px;">{{ entry_action }}</td>
+                                </tr>
+                              </thead>
+                              {% if (layouts is defined) %} 
+                              <tbody>
+                                  {% set i = 1 %}
+                                {% for layout in layouts %} 
+                                
+ 
+                                <tr id="layout-{{ i }}">
+                                    <td>{{ i }}</td>  
+                                    <td>{{ layout['layout_id'] }}</td>                                                                                           
+                                    <td><input type="text" name="layout_name" value="{{ layout['layout_name'] }}" id="{{ layout['layout_id'] }}" class="editable" /></td>      
+                                    <td><input type="text" name="sort" value="{{ layout['layout_sort'] }}" id="{{ layout['layout_id'] }}" class="editable" /></td>  
+                                    <td class="text-left">
+                                        <div class="btn-group pull-right">
+                                            <a href="index.php?route=extension/module/storeapp/layout&user_token={{ user_token }}&layout_id={{ layout['layout_id'] }}" title="{{text_Edit}} " class="edit btn btn-default">
+                                                <i class="icon-pencil"></i> {{text_Edit}}                                    </a>
+                                            <a onclick="confirm('Are you sure?') ? location.href = 'index.php?route=extension/module/storeapp/deleteLayout&user_token={{ user_token }}&layout_id={{ layout['layout_id'] }}' : false;" data-toggle="tooltip" title="" class="btn btn-danger" data-original-title="Delete Layout" aria-describedby="tooltip544895"><i class="fa fa-minus-circle"></i></a>
+                                        </div>
+                                </tr>
+                                {% set i = i + 1 %} 
+                                {% endfor %} 
+                              </tbody>
+                              {% else %} 
+                              <tbody>
+                                  <tr style="height: 200px;">
+                                      <td colspan="7"><center>{{ text_no_history }}</center></td>
+                                  </tr>
+                              </tbody>
+                              {% endif %} 
+                            </table>
+                        </div>
+                    </div>
+			
+			
+			</div>
+		  
+		  
+            <div class="tab-pane" id="tab-basic-setting">
+              
+              	 <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_active_layout_in_app}} </label>
+                <div class="col-sm-6">
+				     {% for language in languages %}
+                    	
+                          <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+				
+                    <div class="well well-sm" style="height: 150px; overflow: auto;">
+               {% if (layouts is defined) %} 
+                      {% for layout in layouts %} 
+					   <div class="checkbox">
+                      <label>
+					  
+                        {% if layout['layout_id'] in storeapp_layout_active[language.code] %}
+                        <input type="checkbox" name="storeapp_layout_active[{{ language.code }}][]" value="{{ layout['layout_id'] }}" checked="checked" />
+                        {{ layout.layout_name }}
+                        {% else %}
+                        <input type="checkbox" name="storeapp_layout_active[{{ language.code }}][]" value="{{ layout['layout_id'] }}" />
+                        {{ layout.layout_name }}
+                        {% endif %}
+                      </label>
+                    </div>
+                    {% endfor %}
+			    {% endif %}
+				 </div>
+				  </div>
+				{% endfor %}
+				
+				
+                </div>
+				</div>
+				
+				
+				 <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_header_design }}</label>
+                <div class="col-sm-8">
+                  <select name="storeapp_header_design" id="input-status" class="form-control">
+                     {% for key,value in header_designs %}
+                        {% if storeapp_header_design==key %}
+                        <option value="{{ key }}" selected="selected">{{ value }}</option>
+                        
+                        {% else %}
+                        <option value="{{ key }}">{{ value }}</option>
+                       
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                  </br>
+                   <img src="" alt="" id="theme-header" class="img-thumbnail" />
+                </div>
+				</div>
+	  
+	    	
+				 <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_filter_design }}</label>
+                <div class="col-sm-8">
+                  <select name="storeapp_filter_design" id="input-status" class="form-control">
+                     {% for key,value in filter_designs %}
+                        {% if storeapp_filter_design==key %}
+                        <option value="{{ key }}" selected="selected">{{ value }}</option>
+                        
+                        {% else %}
+                        <option value="{{ key }}">{{ value }}</option>
+                       
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                  </br>
+                   <img src="" alt="" id="theme-filter" class="img-thumbnail" />
+                </div>
+				</div>
+	  
+	  
+               <div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_select_show_category }}</label>
+                <div class="col-sm-8">
+                  <select name="storeapp_select_show_category" id="input-status" class="form-control">
+                     {% for key,value in category_page_design %}
+                        {% if storeapp_select_show_category==key %}
+                        <option value="{{ key }}" selected="selected">{{ value }}</option>
+                        
+                        {% else %}
+                        <option value="{{ key }}">{{ value }}</option>
+                       
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                  </br>
+                  
+                   <img src="" alt="" id="theme-category" class="img-thumbnail" />
+                </div>
+				</div>
+				
+				<div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_select_show_product_list }}</label>
+                <div class="col-sm-8">
+                  <select name="storeapp_product_list_design" id="input-status" class="form-control">
+                     {% for key,value in product_list_design %}
+                        {% if storeapp_product_list_design==key %}
+                        <option value="{{ key }}" selected="selected">{{ value }}</option>
+                        
+                        {% else %}
+                        <option value="{{ key }}">{{ value }}</option>
+                       
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                  </br>
+                  <img src="" alt="" id="theme-product" class="img-thumbnail" />
+                </div>
+				</div>
+				
+				
+				<div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_select_fontfamily_rtl }}</label>
+                <div class="col-sm-8">
+                  <select name="storeapp_fontfamily_rtl" id="input-status" class="form-control">
+                     {% for key,value in font_family %}
+                        {% if storeapp_fontfamily_rtl==key %}
+                        <option value="{{ key }}" selected="selected">{{ value }}</option>
+                        
+                        {% else %}
+                        <option value="{{ key }}">{{ value }}</option>
+                       
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                  
+                  
+                </div>
+				</div>
+				
+				
+				
+				<div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">{{ text_select_fontfamily_ltr }}</label>
+                <div class="col-sm-8">
+                  <select name="storeapp_fontfamily_ltr" id="input-status" class="form-control">
+                     {% for key,value in font_family %}
+                        {% if storeapp_fontfamily_ltr==key %}
+                        <option value="{{ key }}" selected="selected">{{ value }}</option>
+                        
+                        {% else %}
+                        <option value="{{ key }}">{{ value }}</option>
+                       
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+				</div>
+
+             
+          
+          </div>
+
+        <div class="tab-pane" id="tab-intro">
+         
+         <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-status">{{ text_intro_status }}</label>
+                <div class="col-sm-10">
+                  <select name="storeapp_intro_status" id="input-status" class="form-control">
+                    {% if storeapp_intro_status %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+          </div>
+         <div class="table-responsive">
+             
+				<table id="intro" class="table table-striped table-bordered table-hover">
+						<thead>
+								<tr>
+											
+											<td class="text-left">{{ text_image }}</td>
+											<td class="text-left">{{ text_title }}</td>
+											<td class="text-left">{{ text_link }}</td>
+											<td class="text-left">{{ text_icon }}</td>
+											<td class="text-left">{{ text_description }}</td>
+											<td></td>
+										</tr>
+									</thead>
+								<tbody>
+									{% set intro_row = 0 %}
+									{% for storeapp_intro in storeapp_intros %}
+									<tr id="intro-row{{ intro_row }}">
+										 <td class="text-left" >
+										  
+                                           <div class="input-group">
+										      <a href="" id="thumb-image{{ intro_row }}" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_intro.image }}" style="width:100%" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+										      <input type="hidden" name="storeapp_intros[{{ intro_row }}][image]" value="{{ storeapp_intro.image }}" id="input-image{{ intro_row }}" />
+                                          </div>
+                                           
+                                         </td>
+                                         
+										<td class="text-left" style="width: 20%;">
+											<input type="text" name="storeapp_intros[{{ intro_row }}][title]" value="{{ storeapp_intro.title }}" class="form-control" />
+										</td>
+										<td class="text-left" style="width: 20%;">
+											<select name="storeapp_intros[{{ intro_row }}][type]" id="input-status" class="form-control">
+											{% if storeapp_intro.type=="product" %}
+											<option value="product" selected="selected">{{ text_Links_to_Product }}</option>
+											<option value="category">{{ text_Links_to_Categories }}</option>
+											{% else %}
+											<option value="product" >{{ text_Links_to_Product }}</option>
+											<option value="category" selected="selected">{{ text_Links_to_Categories }}</option>
+											{% endif %}
+
+										</select>
+										<input type="text" name="storeapp_intros[{{ intro_row }}][id]" value="{{ storeapp_intro.id }}"  placeholder="empty or product id or category id"class="form-control" />
+										</td>
+										 <td class="text-left" >
+										     
+                                              <div class="input-group" >
+										     <a href="" id="thumb-icon{{ intro_row }}" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_intro.icon }}" style="width:100%" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+										      <input type="hidden" name="storeapp_intros[{{ intro_row }}][icon]" value="{{ storeapp_intro.icon }}" id="input-icon{{ intro_row }}" />
+                                            </div>
+                                            
+                                         </td>
+										<td class="text-left" style="width: 30%;">
+											<input type="text" name="storeapp_intros[{{ intro_row }}][description]" value="{{ storeapp_intro.description }}" class="form-control" />
+										</td>
+
+										<td class="text-left"><button type="button" onclick="$('#intro-row{{ intro_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+									</tr>
+									{% set intro_row = intro_row + 1 %}
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="2"></td>
+										<td class="text-left"><button type="button" onclick="addIntro();" data-toggle="tooltip" title="{{ button_intro_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+									</tr>
+								</tfoot>
+								</table>
+							</div>
+
+          
+
+
+        </div>
+		
+		
+		
+	
+        
+         <div class="tab-pane" id="tab-icon">
+             
+            
+              
+              
+              
+              
+                <div class="form-group">
+			<label class="col-sm-2 control-label" for="storeapp_profile_banner">{{ text_profile_banner }}</label>
+            <div class="col-sm-4">
+                
+    				<td class="text-left" ><a href="" id="thumb-image-pbanner" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_profile_banner }}" style="width:80%" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                    <input type="hidden" name="storeapp_profile_banner" value="{{ storeapp_profile_banner }}" id="input-image-pbanner" /></td>
+                
+            </div>
+              
+                <label class="col-sm-2 control-label" for="storeapp_profile_url">{{ text_profile_url }}</label>
+                <div class="col-sm-4">
+                  <input type="text" name="storeapp_profile_url" value="{{ storeapp_profile_url }}" placeholder="https://google.com for example" id="" class="form-control" />
+                </div>
+              
+          </div>
+              
+            
+              <h3>{{ text_shipping_method }}</h3>
+               <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                  
+                  <thead>
+                      <tr>
+                          <td>{{ text_shipping_method_name }}</td>
+                             <td>{{ text_shipping_method_icon }}</td>
+                      </tr>
+                      
+                  </thead>
+                  <tbody>
+                       {% for ShippingMethod in ShippingMethods %}
+                    	<tr>
+                    	    <td>
+                          <span class="input-group-addon">{{ShippingMethod.title}}</span>
+                           <input type="hidden" name="storeapp_ShippingMethod[{{ ShippingMethod.code }}]" value="{{ storeapp_ShippingMethod.code }}" />
+                                          
+                          </td>
+                         	<td class="text-left">
+										<a href="" id="thumb-image-{{ ShippingMethod.code }}" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_ShippingMethod[ShippingMethod.code].icon }}"  alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+				                        	<input type="hidden" name="storeapp_ShippingMethod[{{ ShippingMethod.code }}][icon]" value="{{ storeapp_ShippingMethod[ShippingMethod.code].icon }}" id="input-image-{{ ShippingMethod.code }}" />
+							</td>
+                          </tr>
+                     {% endfor %}
+                      
+                  </tbody>
+                  
+                  
+                  
+              </table>
+             </div> 
+             
+             
+             
+             <h3>{{ text_payment_method }}</h3>
+               <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                  
+                  <thead>
+                      <tr>
+                          <td>{{ text_payment_method_name }}</td>
+                             <td>{{ text_payment_method_icon }}</td>
+                      </tr>
+                      
+                  </thead>
+                  <tbody>
+                       {% for PaymentMethod in PaymentMethods %}
+                    	<tr>
+                    	    <td>
+                          <span class="input-group-addon">{{PaymentMethod.title}}</span>
+                           <input type="hidden" name="storeapp_PaymentMethod[{{ PaymentMethod.code }}]" value="{{ storeapp_PaymentMethod.code }}" />
+                                          
+                          </td>
+                         	<td class="text-left">
+										<a href="" id="thumb-image-{{ PaymentMethod.code }}" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_PaymentMethod[PaymentMethod.code].icon }}"  alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+				                        	<input type="hidden" name="storeapp_PaymentMethod[{{ PaymentMethod.code }}][icon]" value="{{ storeapp_PaymentMethod[PaymentMethod.code].icon }}" id="input-image-{{ PaymentMethod.code }}" />
+							</td>
+                          </tr>
+                     {% endfor %}
+                      
+                  </tbody>
+                  
+                  
+                  
+              </table>
+             </div> 
+             
+             
+             
+              <h3>{{ text_order_status }}</h3>
+               <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                  
+                  <thead>
+                      <tr>
+                          <td>{{ text_order_status_name }}</td>
+                          <td>{{ text_order_status_status }}</td>
+                          <td>{{ text_order_icon }}</td>
+                      </tr>
+                      
+                  </thead>
+                  <tbody>
+                       {% for order_status in order_statuses %}
+                    	<tr>
+                    	    <td>
+                           <input type="hidden" name="storeapp_order_status[{{ order_status.order_status_id }}][name]" value="{{ order_status.name }}" /> 
+                           <input type="hidden" name="storeapp_order_status[{{ order_status.order_status_id }}][id]" value="{{ order_status.order_status_id }}" />
+                           {{ order_status.name }}
+                          </td>
+                          
+                           <td>
+                          <select name="storeapp_order_status[{{ order_status.order_status_id }}][status]" class="form-control">
+                              {% if storeapp_order_status[order_status.order_status_id].status %}
+                               <option value="1" selected="selected">{{ text_enabled }}</option>
+                                <option value="0">{{ text_disabled }}</option>
+                                {% else %}
+                                <option value="1">{{ text_enabled }}</option>
+                                <option value="0" selected="selected">{{ text_disabled }}</option>
+                                {% endif %}
+                              
+                              
+                          </select>
+                          </td>
+                          
+                         	<td class="text-left">
+								<a href="" id="thumb-image-{{ order_status.order_status_id }}" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_order_status[order_status.order_status_id].icon }}"  alt="" title="" style="width:50px" data-placeholder="{{ placeholder }}" /></a>
+				            	<input type="hidden" name="storeapp_order_status[{{ order_status.order_status_id }}][icon]" value="{{ storeapp_order_status[order_status.order_status_id].icon }}" id="input-image-{{ order_status.order_status_id }}" />
+							</td>
+                          </tr>
+                     {% endfor %}
+                      
+                  </tbody>
+               </table>
+             </div> 
+             
+         </div>         
+        
+         <div class="tab-pane" id="tab-theme">
+             
+             
+            <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_primary_bg_color">{{ text_Select_the_primary_bg_color_of_the_application }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_primary_bg_color" value="{{ storeapp_primary_bg_color }}" placeholder="storeapp_primary_bg_color" id="storeapp_primary_bg_color" class="form-control" />
+                </div>
+              </div>
+            
+            
+            <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_primary_text_color">{{ text_Select_the_primary_text_color_of_the_application }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_primary_text_color" value="{{ storeapp_primary_text_color }}" placeholder="header color" id="storeapp_primary_text_color" class="form-control" />
+                </div>
+              </div>
+            
+
+              
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_colorheader">{{ text_Select_the_color_of_the_application_header }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_colorheader" value="{{ storeapp_colorheader }}" placeholder="header color" id="storeapp_colorheader" class="form-control" />
+                </div>
+              </div>
+              
+               <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_colorheader_text">{{ text_Select_the_header_text_color_of_the_application }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_colorheader_text" value="{{ storeapp_colorheader_text }}" placeholder="header color" id="storeapp_colorheader_text" class="form-control" />
+                </div>
+              </div>
+              
+              
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_bg_color">{{ text_Select_the_color_of_the_application_bg }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_bg_color" value="{{ storeapp_bg_color }}" placeholder="tab color " id="storeapp_bg_color" class="form-control" />
+                </div>
+              </div>
+              
+
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_colorcathome">{{ text_Select_color_Category_scroll_background_on_home_page }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_colorcathome" value="{{ storeapp_colorcathome }}" placeholder=" category color home page" id="storeapp_colorcathome" class="form-control" />
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_colortextcathome">{{ text_Select_color_Category_scroll_text_on_home_page }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_colortextcathome" value="{{ storeapp_colortextcathome }}" placeholder=" text category color home page" id="storeapp_colortextcathome" class="form-control" />
+                </div>
+              </div>
+
+         
+          <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_disable_btn_color_text">{{ text_Select_the_color_of_disable_button_text }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_disable_btn_color_text" value="{{ storeapp_disable_btn_color_text }}" placeholder="header color" id="storeapp_disable_btn_color_text" class="form-control" />
+                </div>
+              </div>
+              
+             <div class="form-group">
+                <label class="col-sm-6 control-label" for="storeapp_disable_btn_color">{{ text_Select_the_color_of_disable_button }}</label>
+                <div class="col-sm-2">
+                  <input type="color" name="storeapp_disable_btn_color" value="{{ storeapp_disable_btn_color }}" placeholder="header color" id="storeapp_disable_btn_color" class="form-control" />
+                </div>
+              </div>
+             
+
+            
+
+
+            </div>
+		
+		<div class="tab-pane" id="tab-contact">
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_namestore">{{ text_shop_name }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_namestore" value="{{ storeapp_contactus_namestore }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+			<label class="col-sm-2 control-label" for="storeapp_contactus_icon">{{ text_icon }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+    				<td class="text-left" ><a href="" id="thumb-image-iconcontact" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_contactus_icon }}" style="width:20%" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                    <input type="hidden" name="storeapp_contactus_icon" value="{{ storeapp_contactus_icon }}" id="icon-image-iconcontact" /></td>
+                </div>
+            </div>
+			
+          </div>
+		  
+		  <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_privacy_link">{{ text_Privacy_link }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_privacy_link" value="{{ storeapp_contactus_privacy_link }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+           <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_privacy_link">{{ text_Complaint_link }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_complaints_link" value="{{ storeapp_contactus_complaints_link }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+		  <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_description">{{ text_contactus_description }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_description" value="{{ storeapp_contactus_description }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+          
+            <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_email">{{ text_Email_Management }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_email" value="{{ storeapp_contactus_email }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+           <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_email_title">{{ text_contactus_email_title }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_email_title" value="{{ storeapp_contactus_email_title }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+          
+           <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_email_description">{{ text_contactus_email_description }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_email_description" value="{{ storeapp_contactus_email_description }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+          
+        
+		  
+		   <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_subject_email">{{ text_contactus_subject_email }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_subject_email" value="{{ storeapp_contactus_subject_email }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+		  
+		  
+		   <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_message_email">{{ text_contactus_message_email }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_message_email" value="{{ storeapp_contactus_message_email }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+		  
+		  
+		  <div class="form-group">
+			<label class="col-sm-2 control-label" for="storeapp_contactus_email_icon">{{ text_email_icon }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+    				<td class="text-left" ><a href="" id="thumb-image-emailicon" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_contactus_email_icon }}" style="" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                    <input type="hidden" name="storeapp_contactus_email_icon" value="{{ storeapp_contactus_email_icon }}" id="icon-image-emailicon" /></td>
+                </div>
+            </div>
+          </div>
+		  
+		  <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_callnumber">{{ text_Phone_number_Management }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_callnumber" value="{{ storeapp_contactus_callnumber }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+           <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_call_title">{{ text_contactus_call_title }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_call_title" value="{{ storeapp_contactus_call_title }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+		  
+		  
+		   <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_call_description">{{ text_contactus_call_description }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_call_description" value="{{ storeapp_contactus_call_description }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+		  
+		  <div class="form-group">
+			<label class="col-sm-2 control-label" for="storeapp_contactus_call_icon">{{ text_call_icon }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+    				<td class="text-left" ><a href="" id="thumb-image-callicon" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_contactus_call_icon }}" style="" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+                    <input type="hidden" name="storeapp_contactus_call_icon" value="{{ storeapp_contactus_call_icon }}" id="icon-image-callicon" /></td>
+                </div>
+            </div>
+          </div>
+		  
+		 
+		  
+		   <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_subject_share">{{ text_subject_Submitted_text_for_Social_Networks }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_subject_share" value="{{ storeapp_contactus_subject_share }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+		  
+		   <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_message_share">{{ text_Submitted_text_for_Social_Networks }}</label>
+            <div class="col-sm-10">
+               <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_message_share" value="{{ storeapp_contactus_message_share }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+		  
+		   <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_url_share">{{ text_Links_social_networks }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_url_share" value="{{ storeapp_contactus_url_share }}"   class="form-control" />
+                </div>
+            </div>
+          </div>
+          
+          
+		   <div class="form-group">
+            <label class="col-sm-2 control-label" for="storeapp_contactus_text">{{ text_text_under_the_version }}</label>
+            <div class="col-sm-10">
+                <div class="col-sm-10">
+                    <input type="text" name="storeapp_contactus_text" value="{{ storeapp_contactus_text }}" placeholder="{{ text_copy_right_by_Sky_Web_Designers_Group }}"  class="form-control" />
+                </div>
+            </div>
+          </div>
+		   <h3>social information </h3>
+		  <table id="social" class="table table-striped table-bordered table-hover">
+						<thead>
+								<tr>
+											
+											
+											<td class="text-left">{{ text_title }}</td>
+											<td class="text-left">{{ text_link }}</td>
+											<td class="text-left">{{ text_icon }}</td>
+											<td class="text-left">{{ text_description }}</td>
+											<td></td>
+										</tr>
+									</thead>
+								<tbody>
+									{% set social_row = 0 %}
+									{% for storeapp_social in storeapp_socials %}
+									<tr id="social-row{{ social_row }}">
+										 
+                                         
+										<td class="text-left" style="width: 20%;">
+											<input type="text" name="storeapp_socials[{{ social_row }}][title]" value="{{ storeapp_social.title }}" class="form-control" />
+										</td>
+										<td class="text-left" style="width: 20%;">
+											
+										<input type="text" name="storeapp_socials[{{ social_row }}][url]" value="{{ storeapp_social.url }}"  placeholder="url with http"class="form-control" />
+										</td>
+										 <td class="text-left" >
+										     
+                                              <div class="input-group" >
+										     <a href="" id="thumb-socialicon{{ social_row }}" data-toggle="image" class="img-thumbnail"><img src="{{ HTTP_CATALOG }}{{ storeapp_social.icon }}" style="width:100%" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
+										      <input type="hidden" name="storeapp_socials[{{ social_row }}][icon]" value="{{ storeapp_social.icon }}" id="input-socialicon{{ social_row }}" />
+                                            </div>
+                                            
+                                         </td>
+										<td class="text-left" style="width: 30%;">
+											<input type="text" name="storeapp_socials[{{ social_row }}][description]" value="{{ storeapp_social.description }}" class="form-control" />
+										</td>
+
+										<td class="text-left"><button type="button" onclick="$('#social-row{{ social_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+									</tr>
+									{% set social_row = social_row + 1 %}
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="2"></td>
+										<td class="text-left"><button type="button" onclick="addSocial();" data-toggle="tooltip" title="{{ button_social_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+									</tr>
+								</tfoot>
+								</table>
+		  
+		  
+        </div>
+
+
+           
+
+            <div class="tab-pane" id="tab-notification">
+          
+		       <div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-description">{{ text_Notification_message_title }}</label>
+                    <div class="col-sm-8">
+                     <input name="title" value="" class="form-control" />
+                    </div>
+					</div>
+					
+					
+					
+					<div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-description">{{ text_Notification_message_text }}</label>
+                    <div class="col-sm-8">
+				
+					<input name="text" value="" class="form-control" />
+                     
+                    </div>
+					</div>
+					
+					
+					<div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-description">{{ text_Full_text_message }}</label>
+                    <div class="col-sm-8">
+					<textarea name="message_long" row="5" class="form-control summernote" data-toggle="summernote" data-lang="{{ summernote }}"></textarea>
+					
+                     
+                    </div>
+					</div>
+					
+					
+					<div class="form-group">
+                       <div class="col-sm-2">
+                    
+					   <input type="button" value="{{ text_Send_notification }}" id="button-send" class="btn btn-default" /> 
+                    </div>
+                </div>
+		  
+		  
+		  
+            </div>
+			
+			  <div class="tab-pane" id="tab-update">
+			
+			<div class="form-group">
+                       <div class="col-sm-2">
+                    
+					   <input type="button" value="{{ text_Update_the_application_management_module_to_the_latest_version }}" id="button-update" class="btn btn-default" /> 
+                    </div>
+                </div>
+				
+				
+				  <div class="form-group">
+                <label class="col-sm-3 control-label" for="input-status">{{ text_Show_app_update_alert }}</label>
+                <div class="col-sm-8">
+                  <select name="storeapp_update_alert" id="input-status" class="form-control">
+                    {% if storeapp_update_alert %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+                </div>
+                
+                <div class="form-group">
+                 <label class="col-sm-3 control-label" for="input-status">{{ text_Ability_to_review_and_purchase_an_app_without_an_update }}</label>
+                <div class="col-sm-8">
+                  <select name="storeapp_update_need" id="input-status" class="form-control">
+                    {% if storeapp_update_need %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+                </div>
+                
+                    <div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-description">{{text_Current_version_of_the_app}}</label>
+                    <div class="col-sm-8">
+                     <input name="storeapp_update_version" class="form-control" value="{{storeapp_update_version}}" />
+                    </div>
+					</div>
+					
+					 <div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-description">{{text_Application_download_link_From_site_or_market}}</label>
+                    <div class="col-sm-8">
+                     <input name="storeapp_update_url" class="form-control" value="{{storeapp_update_url}}" />
+                    </div>
+					</div>
+                	
+					<div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-description">{{ text_of_application_updates }}</label>
+                    <div class="col-sm-8">
+					<textarea name="storeapp_update_message" row="5" class="form-control summernote" data-toggle="summernote" data-lang="{{ summernote }}">{{storeapp_update_message}}</textarea>
+			       </div>
+                </div>
+			
+			
+			</div>
+            
+
+            <div class="tab-pane" id="tab-build-app">
+
+           
+               <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-banner">{{ entry_banner }}</label>
+            <div class="col-sm-10">
+              <select name="storeapp_banner_banner_id" id="input-banner" class="form-control">
+                {% for banner in banners %}
+                {% if banner.banner_id == storeapp_banner_banner_id %}
+                <option value="{{ banner.banner_id }}" selected="selected">{{ banner.name }}</option>
+                {% else %}
+                <option value="{{ banner.banner_id }}">{{ banner.name }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-width">{{ entry_width }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="storeapp_banner_width" value="{{ storeapp_banner_width }}" placeholder="{{ entry_width }}" id="input-width" class="form-control" />
+              {% if error_width %}
+              <div class="text-danger">{{ error_width }}</div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-height">{{ entry_height }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="storeapp_banner_height" value="{{ storeapp_banner_height }}" placeholder="{{ entry_height }}" id="input-height" class="form-control" />
+              {% if error_height %}
+              <div class="text-danger">{{ error_height }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+
+
+          
+
+
+          </div>
+
+          
+        </div>
+        </form>     
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="addLayoutModal"  tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="gridSystemModalLabel">{{ entry_add_layout }}</h4>
+        </div>
+          <div id="add-layout-message"></div>
+          <form action="" method="post" enctype="multipart/form-data" id="save-new-layout" class='form-horizontal'>
+          <div class="modal-body">
+              <div class="row" style="font-size: 14px;">
+                <div class="form-group required" style="margin-bottom: 10px;">
+                      <label class="col-sm-4 control-label" for="input-title">{{ entry_add_layout_name }}</label>
+                    <div class="col-sm-8">
+                      <input type="text" name="layout_title" value="" placeholder="{{ entry_add_layout_name }}" id="layout-title" class="form-control" />
+                      <div id="layout-title-error"></div>
+                    </div>
+                  </div>
+           
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{ button_cancel }}</button>
+          <button type="button" class="btn btn-primary" id='save-layout' >{{ button_submit }}</button>
+        </div>
+      </div><!-- /.modal-content -->
+       </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ <script type="text/javascript"><!--
+ 
+ 
+ $('#save-layout').click(function(e){
+    e.preventDefault();
+    var status = true;
+    if($('#layout-title').val() == ''){
+        $('#layout-title-error').html('<div class="text-danger">{{ error_layout_title }}</div>');
+        status = false;
+    }
+    if(status) {
+        layout_name = $('#layout-title').val()
+        $.ajax({
+                url: 'index.php?route=extension/module/storeapp/saveLayout&user_token={{ user_token }}',
+                method: 'post',
+                data: 'name='+layout_name,
+				beforeSend: function() {
+			
+			$('#save-layout').before('<div class="alert alert-info"><i class="fa fa-info-circle"></i>{{text_waiting}}</div>');
+		},
+            }).done(function(response) {
+                    var url = 'index.php?route=extension/module/storeapp/layout&user_token={{ user_token }}&layout_id='+response;
+                    setTimeout(function() { window.location = url }, 3400);
+                    $.growl.notice({ title: "", message: '{{ success_layout_message }}'});
+            });
+    }
+});
+ 
+ 
+ 
+$('select[name=\'storeapp_select_show_category\']').on('change', function() {
+	$.ajax({
+		url: 'index.php?route=extension/module/storeapp/show_category&user_token={{ user_token }}&category=' + this.value,
+		dataType: 'html',
+	
+		success: function(html) {
+			$('#theme-category').attr('src', html);
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+
+$('select[name=\'storeapp_select_show_category\']').trigger('change');
+
+$('select[name=\'storeapp_product_list_design\']').on('change', function() {
+	$.ajax({
+		url: 'index.php?route=extension/module/storeapp/show_product&user_token={{ user_token }}&product=' + this.value,
+		dataType: 'html',
+	
+		success: function(html) {
+			$('#theme-product').attr('src', html);
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+
+$('select[name=\'storeapp_product_list_design\']').trigger('change');
+
+
+
+
+$('select[name=\'storeapp_header_design\']').on('change', function() {
+	$.ajax({
+		url: 'index.php?route=extension/module/storeapp/show_header&user_token={{ user_token }}&design=' + this.value,
+		dataType: 'html',
+	
+		success: function(html) {
+			$('#theme-header').attr('src', html);
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+
+$('select[name=\'storeapp_header_design\']').trigger('change');
+
+
+
+$('select[name=\'storeapp_filter_design\']').on('change', function() {
+	$.ajax({
+		url: 'index.php?route=extension/module/storeapp/show_filter&user_token={{ user_token }}&design=' + this.value,
+		dataType: 'html',
+	
+		success: function(html) {
+			$('#theme-filter').attr('src', html);
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+
+$('select[name=\'storeapp_filter_design\']').trigger('change');
+//--></script> 
+
+
+
+  <script type="text/javascript"><!--
+$('.date').datetimepicker({
+	language: '{{ datepicker }}',
+	pickTime: false
+});
+
+$('.time').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: false
+});
+
+$('.datetime').datetimepicker({
+	language: '{{ datepicker }}',
+	pickDate: true,
+	pickTime: true
+});
+//--></script> 
+
+<style type="text/css">
+	.nostyle { width: 36%; }
+</style>
+
+<script type="text/javascript"><!--
+
+
+
+var intro_row = {{ intro_row }};
+
+function addIntro() {
+    html  = '<tr id="intro-row' + intro_row + '">';
+	
+    html += '  <td class="text-left">';
+	  
+	  html += '   <div class="input-group">';
+     html += ' 	<a href="" id="thumb-image' + intro_row + '" data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="storeapp_intros[' + intro_row + '][image]" value="" id="input-image' + intro_row + '" /></div>';
+
+    	html += ' 	</td>';
+	html += '  <td class="text-left"><input type="text" name="storeapp_intros[' + intro_row + '][title]" value="" class="form-control" /></td>';
+     	 html += ' <td class="text-left" style="width: 20%;">';
+			html += '<select name="storeapp_intros[' + intro_row + '][type]" id="input-status" class="form-control">';
+			html += '<option value="product" >{{ text_Links_to_Product }}</option>';
+			html += '<option value="category">{{ text_Links_to_Categories }}</option>';
+			html += '</select>';
+	 
+	 html += ' <input type="text" name="storeapp_intros[' + intro_row + '][id]" value=""  placeholder="empty or product id or category id"class="form-control" />';
+		html += ' 	</td>';		
+	html += '  <td class="text-left">';
+	
+	  html += '   <div class="input-group">';
+     html += ' 	<a href="" id="thumb-icon' + intro_row + '"data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="storeapp_intros[' + intro_row + '][icon]" value="" id="input-icon' + intro_row + '" /></div>';
+	
+	html += ' 	</td>';
+	html += '  <td class="text-left" style="width: 20%;"><input type="text" name="storeapp_intros[' + intro_row + '][description]" value="" class="form-control" /></td>';
+	
+	
+	html += '  <td class="text-left"><button type="button" onclick="$(\'#intro-row' + intro_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+    html += '</tr>';
+	
+	$('#intro tbody').append(html);
+	
+	intro_row++;
+}
+
+var social_row = {{ social_row }};
+
+function addSocial() {
+    html  = '<tr id="social-row' + social_row + '">';
+	
+   
+	html += '  <td class="text-left"><input type="text" name="storeapp_socials[' + social_row + '][title]" value="" class="form-control" /></td>';
+    html += '  <td class="text-left" style="width: 20%;"><input type="text" name="storeapp_socials[' + social_row + '][link]" value="" class="form-control" /></td>';
+	
+	
+	html += '  <td class="text-left">';
+	
+	  html += '   <div class="input-group">';
+     html += ' 	<a href="" id="thumb-socialicon' + social_row + '"data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="storeapp_socials[' + social_row + '][icon]" value="" id="input-socialicon' + social_row + '" /></div>';
+	
+	html += ' 	</td>';
+	html += '  <td class="text-left" style="width: 20%;"><input type="text" name="storeapp_socials[' + social_row + '][description]" value="" class="form-control" /></td>';
+	
+	
+	html += '  <td class="text-left"><button type="button" onclick="$(\'#social-row' + social_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+    html += '</tr>';
+	
+	$('#social tbody').append(html);
+	
+	social_row++;
+}
+
+
+
+$('#button-send').on('click', function () {
+   $.ajax({
+          type: 'post',
+		dataType: 'json',
+		url: 'index.php?route=extension/module/storeapp/send&user_token={{user_token}}',
+		data: $('#tab-notification :input'),
+		beforeSend: function() {
+			
+			$('#button-send').before('<div class="alert alert-info"><i class="fa fa-info-circle"></i>{{text_waiting}}</div>');
+		},
+				
+		success: function(json) {
+			$('.alert').remove();
+		$('#button-send').before('<div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_sent }}</div>');
+			}
+			
+			
+		});
+});
+$('#button-update').on('click', function () {
+   $.ajax({
+          type: 'post',
+		dataType: 'json',
+		url: 'index.php?route=extension/module/storeapp/update&user_token={{user_token}}',
+		data: $('#tab-notification :input'),
+		beforeSend: function() {
+			
+			$('#button-update').before('<div class="alert alert-info"><i class="fa fa-info-circle"></i>{{text_waiting}}</div>');
+		},
+				
+		success: function(json) {
+			$('.alert').remove();
+		$('#button-update').before('<div class="alert alert-info"><i class="fa fa-info-circle"></i>{{text_Update_completed}}</div>');
+			}
+			
+			
+		});
+});
+
+
+
+$('input[name=\'layout_name\']').change(function() {  
+     
+      $.ajax({
+          type: 'get',
+		dataType: 'json',
+		url: 'index.php?route=extension/module/storeapp/EditLayoutname&user_token={{user_token}}&layout_id=' + this.id + '&name='+this.value,
+		beforeSend: function() {
+			
+			$('#'+this.id).before('<div class="alert alert-info"><i class="fa fa-info-circle"></i>{{text_waiting}}</div>');
+		},
+				
+		success: function(json) {
+			$('.alert').remove();
+		alert("succesfully changed");
+			}
+			
+			
+		});
+	});
+
+
+$('input[name=\'sort\']').change(function() {  
+     
+      $.ajax({
+          type: 'get',
+		dataType: 'json',
+		url: 'index.php?route=extension/module/storeapp/addsort&user_token={{user_token}}&layout_id=' + this.id + '&sort='+this.value,
+		beforeSend: function() {
+			
+			$('#'+this.id).before('<div class="alert alert-info"><i class="fa fa-info-circle"></i>{{text_waiting}}</div>');
+		},
+				
+		success: function(json) {
+			$('.alert').remove();
+		alert("succesfully changed");
+			}
+			
+			
+		});
+	});
+
+
+
+
+//--></script>
+<script type="text/javascript"> 			
+$(document).ready(function() {
+	$('.editable').focus(function() {
+		$(this).addClass("focusField");		
+      
+    });
+    $('.editable').change(function() {
+    	$(this).removeClass("focusField");				
+      				
+   });	
+});
+</script>
+
+<style type="text/css">		
+.focusField {
+	color: #000;
+	border: solid 2px #DBDBDB  !important;
+	background: #FFEEEE !important;
+}
+.editable {
+	color: #000;
+	border: none;	
+	background: none;
+	cursor: pointer;
+}
+</style>
+ <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+  <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script> 
+  <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script> 
+    
+  <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+  <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+  <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+  <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+{{ footer }}

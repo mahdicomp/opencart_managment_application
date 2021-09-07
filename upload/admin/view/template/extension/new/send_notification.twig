@@ -1,0 +1,68 @@
+             <div id="notification" class="col-sm-9 " style="background: #f6f6f6;padding: 30px;margin: 40px;">
+                  <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ text_send_message }}
+        </div>
+        
+        <div class="panel-body">
+              <div class="form-group" >
+                    <label class="col-sm-3 control-label" for="input-description">{{ text_Notification_message_title }}</label>
+                    <div class="col-sm-8">
+                     <input name="title" value="" />
+                    </div>
+					</div>
+					
+					
+					
+					<div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-description">{{ text_Notification_message_text }}</label>
+                    <div class="col-sm-8">
+					<textarea name="text" row="5"></textarea>
+					
+                     
+                    </div>
+					</div>
+					
+					
+					<div class="form-group">
+                    <label class="col-sm-3 control-label" for="input-description">{{ text_Full_text_message }}</label>
+                    <div class="col-sm-8">
+					<textarea name="message_long" row="5" class="form-control summernote" data-toggle="summernote" data-lang="{{ summernote }}"></textarea>
+					
+                     
+                    </div>
+					</div>
+					
+					<input type="hidden" name="token_device" value="{{ token_device }}">
+					<div class="form-group">
+                       <div class="col-sm-2">
+                    
+					   <input type="button" value="{{ text_Send_notification_message }}" id="button-send" class="btn btn-default" /> 
+                    </div>
+              </div>
+              </div>   
+         </div>   
+                
+    <script type="text/javascript"><!--            
+		  $('#button-send').on('click', function () {
+   $.ajax({
+         type: 'post',
+		dataType: 'json',
+		url: 'index.php?route=extension/module/storeapp/send_notification&user_token={{user_token}}',
+		data: $('#notification :input'),
+		beforeSend: function() {
+			
+			$('#button-send').before('<div class="alert alert-info"><i class="fa fa-info-circle"></i>{{ text_Plz_waiting }}</div>');
+		},
+				
+		success: function(json) {
+			$('.alert').remove();
+		$('#button-send').before('<div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_Sent }}</div>');
+			}
+			
+			
+		});
+});
+
+
+//--></script>
