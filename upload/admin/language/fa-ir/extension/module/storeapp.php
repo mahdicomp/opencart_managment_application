@@ -616,7 +616,7 @@ $_['entry_component_heading'] = 'عنوان کامپوننت:';
 
 $_['error_text_color'] = 'انتخاب رنگ متن';
 $_['error_background_color'] = 'انتخاب رنگ پس زمینه';
-$_['error_countdown'] = 'Error Countdown cannot be empty';
+$_['error_countdown'] = 'زمان تخفیف نباید خالی باشد .';
 $_['select_redirect_activity_error'] = 'انتخاب ارجا !';
 
 
