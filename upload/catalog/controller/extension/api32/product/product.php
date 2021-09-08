@@ -258,7 +258,7 @@ class ControllerExtensionApi32ProductProduct extends Controller {
 			$this->model_catalog_product->updateViewed($this->request->post['product_id']);
 			
 			///vendor code ////
-			if($this->config->get('tmd_vendor_status')){
+			if($this->config->get('tmd_vendor_status') && $this->config->get('storeapp_multivendor')){
             //Vendor Id 
             $vendor_status = $this->config->get('tmd_vendor_status');
 			
@@ -331,7 +331,7 @@ class ControllerExtensionApi32ProductProduct extends Controller {
 			$data['dname'] = $dname;
 			$data['href']  =$this->url->link('vendor/vendor_profile&vendor_id='.$vendor_ids, '', true);
 			$data['vendor_ids']   = $vendor_ids;
-			$data['followerstotal'] = $this->model_vendor_vendor->getTotalFollowers($vendor_id);
+			$data['followerstotal'] = $this->model_vendor_vendor->getTotalFollowers($vendor_ids);
 		 }//end vendor
 			
 		}
