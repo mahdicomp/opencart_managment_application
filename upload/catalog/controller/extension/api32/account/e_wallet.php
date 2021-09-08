@@ -21,8 +21,8 @@ class ControllerExtensionApi32accountewallet extends Controller {
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit
 		);
-	////	$filter['datefrom'] = $data['datefrom'] = date('m/d/Y');
-	//	$filter['dateto'] = $data['dateto'] = date('m/d/Y');
+		$filter['datefrom'] = $data['datefrom'] = date('m/d/Y');
+		$filter['dateto'] = $data['dateto'] = date('m/d/Y');
 		
 		$this->load->model('tool/image');
 		$data['e_wallet_icon_url'] = $this->model_tool_image->resize($this->config->get('e_wallet_icon'), 30,30);
