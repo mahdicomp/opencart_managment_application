@@ -4,17 +4,16 @@ class ControllerExtensionApi32AccountAccount extends Controller {
 		
     	$this->load->controller('extension/api32/common/language');
     	$this->load->controller('extension/api32/common/currency');
-        if(isset($this->request->post['customer_id'])){
-		 $this->customer->loginWithId($this->request->post['customer_id']);
-		}
-		$data['totalreward'] =(int)$this->customer->getRewardPoints();
+       
+		
 		
 			if (isset($this->request->post['customer_id'])) {
 			$customer_id = $this->request->post['customer_id'];
+			$this->customer->loginWithId($this->request->post['customer_id']);
 		} else {
 			$customer_id= 0;
 		}
-
+		$data['totalreward'] =(int)$this->customer->getRewardPoints();
 		$this->load->model('extension/api/account/order');
 	
 
