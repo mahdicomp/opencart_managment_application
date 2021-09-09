@@ -112,7 +112,7 @@ class ControllerExtensionApi32ExtensionModuleProductCategory extends Controller 
 				}
 				
 			
-				if(isset($heading['icon'])){
+				if(!empty($heading['icon'])){
         		  	$icon =HTTPS_SERVER.'image/'.$heading['icon'];
         		}else {
         		    $icon =null;
