@@ -1944,9 +1944,9 @@ class ControllerExtensionModuleStoreapp extends Controller {
         
 		$result=$this->fcm->send_notification($notification_text,$notification_title,$tokensnew,$this->config->get('storeapp_serverKey'),$this->config->get('storeapp_https'));
         }
-	     $this->load->model('new/notification');
+	     $this->load->model('extension/new/notification');
 		 $this->request->post['customer_id']=0;
-         $this->model_new_notification->addNotification($this->request->post);
+         $this->model_extension_new_notification->addNotification($this->request->post);
 		 
 	$this->session->data['install_total'] = $result;
 			
