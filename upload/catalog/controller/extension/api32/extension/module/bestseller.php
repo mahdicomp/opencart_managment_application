@@ -121,16 +121,18 @@ class ControllerExtensionApi32ExtensionModuleBestSeller extends Controller {
 			$id_component= $this->request->post['id_component'];
 		$queryhead = $this->db->query('Select * from  ' . DB_PREFIX . 'storeapp_components_heading where id_component =' . (int) $id_component);
         $heading = $queryhead->row;
-		   if(isset($heading['icon'])){
-		  	$data['icon'] =HTTPS_SERVER.'image/'.$heading['icon'];
-		}else {
-		    $data['icon'] =null;
-		}
-		if(isset($heading['heading'])){
-		  	$data['heading'] =$heading['heading'];
-		}else {
-		    $data['heading'] =null;
-		}
+		if(!empty($heading)){
+			if($heading['icon']){
+			 $data['icon'] =HTTPS_SERVER.'image/'.$heading['icon'];
+		 }else {
+			 $data['icon'] =null;
+		 }
+		 if($heading['heading']){
+			 $data['heading'] =$heading['heading'];
+		 }else {
+			 $data['heading'] =null;
+		 }
+	 }
 		 if (isset($_SERVER['HTTP_ORIGIN'])) {
     		$this->response->addHeader("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
     		$this->response->addHeader('Access-Control-Allow-Credentials: ' . 'true');
