@@ -80,7 +80,7 @@ class ControllerExtensionApi32ProductProduct extends Controller {
 		
 
 			if ($product_info['image']) {
-				$data['thumb'] = HTTP_SERVER.'/image/'.$product_info['image'];  //$this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
+				$data['thumb'] = $this->model_tool_image->resize($product_info['image'], "500", "500"); //$this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_thumb_height'));
 				$data['thumbpro'] = $this->model_tool_image->resize($product_info['image'], "500", "500");
 			} else {
 				$data['thumb'] = '';
