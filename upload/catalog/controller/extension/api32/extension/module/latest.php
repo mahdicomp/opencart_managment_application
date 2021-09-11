@@ -66,8 +66,8 @@ class ControllerExtensionApi32ExtensionModuleLatest extends Controller {
 			    
 			    
 				if ($result['image']) {
-				    $image = HTTP_SERVER.'/image/'.$result['image'];
-				// 	$image = $this->model_tool_image->resize($result['image'], 250, 250);
+				  //  $image = HTTP_SERVER.'/image/'.$result['image'];
+					$image = $this->model_tool_image->resize($result['image'], 250, 250);
 				} else {
 					$image = $this->model_tool_image->resize('placeholder.png', 250, 250);
 				}
