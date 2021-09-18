@@ -58,7 +58,7 @@ class ControllerExtensionApi32CheckoutShipping extends Controller {
       
         				$quote = $this->{'model_extension_shipping_' . $result['code']}->getQuote($shipping_address);
         			
-                        if($ShippingMethod[$result['code']]['icon']){
+                        if(isset($ShippingMethod[$result['code']]) &&  $ShippingMethod[$result['code']]['icon']){
                            $icon=HTTP_SERVER.'image/'.$ShippingMethod[$result['code']]['icon']; 
                         }else {
                             $icon=false;
