@@ -124,7 +124,7 @@ class ControllerExtensionApi32CheckoutPayment extends Controller {
                    
                    
 						if ($method) {
-						    if($PaymentMethod[$result['code']]['icon']){
+						    if(isset($PaymentMethod[$result['code']]) && $PaymentMethod[$result['code']]['icon'] ){
                            $icon=HTTPS_SERVER.'image/'.$PaymentMethod[$result['code']]['icon']; 
                         }else {
                             $icon=false;
