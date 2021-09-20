@@ -150,7 +150,7 @@ class ModelExtensionApiCatalogFilter extends Model {
                     (SELECT category_id FROM " . DB_PREFIX . "category_path WHERE path_id = " . (int)$category_id . ") AND agd.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY ag.attribute_group_id ORDER BY ag.sort_order, agd.name");
          //print_r($product_attribute_group_query->rows);
 		foreach ($product_attribute_group_query->rows as $product_attribute_group) {
-		    
+		    $results=array();
 			$product_attribute_data = array();
 
 			$product_attribute_query = $this->db->query("SELECT a.attribute_id, ad.name, pa.text FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON(pa.product_id=p2c.product_id)  WHERE  p2c.category_id IN
