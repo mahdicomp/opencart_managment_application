@@ -23,12 +23,20 @@ class ControllerExtensionApi32ExtensionModuleFilter extends Controller {
 			$filter_data = array( 'filter_category_id' => $category_id );
 			$this->load->model('extension/api/catalog/filter');
 			$fprice = $this->model_extension_api_catalog_filter->getMinPrice($filter_data ); 
-			$data['min_price'] = $fprice['min']; 
+			  if ($fprice['min_special']) {
+                    $min = $fprice['min_special'];
+                } else {
+                    $min =  $fprice['min'];
+               }
+               
+             //	$data['min_price_currency']  = $this->tax->calculate($min, $fprice['tax_class_id'], $this->config->get('config_tax'));
+			//	$data['max_price_currency']  =$this->tax->calculate($fprice['max'], $fprice['tax_class_id'], $this->config->get('config_tax'));
+		 	$data['min_price'] =$min;
 			$data['max_price'] = $fprice['max']; 
 			
 			$this->load->model('extension/api/catalog/manufacturer');
             $brands = $this->model_extension_api_catalog_manufacturer->getBrandsByCategoryId($category_id);
-           
+          // print_r($brands);
             foreach ($brands as $brand) {
             	
             	$data['manufacturers'][] = array(

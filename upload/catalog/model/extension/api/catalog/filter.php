@@ -1,7 +1,7 @@
 <?php
 class ModelExtensionApiCatalogFilter extends Model {
 	public function getMinPrice($data = array()) {
-		$sql = "SELECT MIN( p.price) as min , MAX( p.price) max";
+		$sql = "SELECT MIN( p.price) as min ,MIN(ps.price) as min_special, MAX( p.price) as max ";
 
 		if (!empty($data['filter_category_id'])) {
 			
@@ -11,7 +11,7 @@ class ModelExtensionApiCatalogFilter extends Model {
 			if (!empty($data['filter_filter'])) {
 				$sql .= " LEFT JOIN " . DB_PREFIX . "product_filter pf ON (p2c.product_id = pf.product_id) LEFT JOIN " . DB_PREFIX . "product p ON (pf.product_id = p.product_id)";
 			} else {
-				$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id)";
+				$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id) LEFT JOIN " . DB_PREFIX . "product_special ps ON (ps.product_id = p.product_id) ";
 			}
 		} else {
 			$sql .= " FROM " . DB_PREFIX . "product p";
@@ -148,37 +148,40 @@ class ModelExtensionApiCatalogFilter extends Model {
 
 		$product_attribute_group_query = $this->db->query("SELECT ag.attribute_group_id, agd.name FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_group ag ON (a.attribute_group_id = ag.attribute_group_id) LEFT JOIN " . DB_PREFIX . "attribute_group_description agd ON (ag.attribute_group_id = agd.attribute_group_id)  LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON(pa.product_id=p2c.product_id)  WHERE  p2c.category_id IN
                     (SELECT category_id FROM " . DB_PREFIX . "category_path WHERE path_id = " . (int)$category_id . ") AND agd.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY ag.attribute_group_id ORDER BY ag.sort_order, agd.name");
-         //print_r($product_attribute_group_query->rows);
+      //   print_r($product_attribute_group_query->rows);
 		foreach ($product_attribute_group_query->rows as $product_attribute_group) {
 		    $results=array();
 			$product_attribute_data = array();
 
 			$product_attribute_query = $this->db->query("SELECT a.attribute_id, ad.name, pa.text FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON(pa.product_id=p2c.product_id)  WHERE  p2c.category_id IN
                     (SELECT category_id FROM " . DB_PREFIX . "category_path WHERE path_id = " . (int)$category_id . ") AND a.attribute_group_id = '" . (int)$product_attribute_group['attribute_group_id'] . "' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "'  ORDER BY a.sort_order, ad.name");
-
+//	print_r($product_attribute_query->rows);
 			foreach ($product_attribute_query->rows as $product_attribute) {
-			
-            if (!isset($results[$product_attribute['attribute_id']])) {
-				$results[$product_attribute['attribute_id']] = array(
-					'attribute_id'   => $product_attribute['attribute_id'],
-					'attribute_name' => $product_attribute['name'],
-					'values'         => array(),
-				);
+	//	print_r( $results[$product_attribute['attribute_id']]);
+	//	echo $product_attribute['attribute_id'];
+                if (!isset($results[$product_attribute['attribute_id']])) {
+                    //echo 1;
+    				$results[$product_attribute['attribute_id']] = array(
+    					'attribute_id'   => $product_attribute['attribute_id'],
+    					'attribute_name' => $product_attribute['name'],
+    					'values'         => array(),
+    				);
+    					$results[$product_attribute['attribute_id']]['values'][$product_attribute['text']] = array(
+    				
+    				'value' => $product_attribute['text'],
+    			
+    			    );
+    			}
+		
 			}
-			$results[$product_attribute['attribute_id']]['values'][$product_attribute['text']] = array(
-				
-				'value' => $product_attribute['text'],
-			
-			);
-			}
-
+        //	print_r( $results);
 			$product_attribute_group_data[] = array(
 				'attribute_group_id' => $product_attribute_group['attribute_group_id'],
 				'name'               => $product_attribute_group['name'],
 				'attribute'          => $results
 			);
 		}
-
+	//	print_r($product_attribute_group_data);
 		return $product_attribute_group_data;
     }
 	
