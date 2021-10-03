@@ -72,7 +72,7 @@ class ControllerExtensionApi32ProductCategory extends Controller {
 		if (isset($data['order'])) {
 			$order = $data['order'];
 		} else {
-			$order = 'DESC';
+			$order = 'ASC';
 		}
 
 		if (isset($this->request->post['page'])) {
