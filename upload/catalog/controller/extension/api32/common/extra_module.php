@@ -11,7 +11,7 @@ class ControllerExtensionApi32CommonExtraModule extends Controller {
 		$data['storeapp_ewallet']=	$this->config->get('storeapp_ewallet');
 		$data['smsverify_status']=	$this->config->get('storeapp_smsverify');
 		$data['storeapp_delivery_time']=	$this->config->get('storeapp_delivery_time');
-		
+		$data['storeapp_delivery_time_name']=	$this->config->get('storeapp_delivery_time_name');
 		$data['reward_status']=	$this->config->get('storeapp_reward');
 		$data['letmeknow_status']=	$this->config->get('storeapp_letmeknow');
 	
