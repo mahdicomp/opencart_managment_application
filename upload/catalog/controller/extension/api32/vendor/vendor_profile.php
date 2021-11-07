@@ -18,8 +18,13 @@ class ControllerExtensionApi32vendorvendorprofile extends Controller {
 
 		/* 03-10-2019 */
 		$this->load->model('vendor/vendor');
-
-			$vendorproduct_id = $this->model_vendor_vendor->getSellerChat($this->request->post['vendor_id']);
+              if(isset($this->request->post['vendor_id'])){
+                $vendor_id = $this->request->post['vendor_id'];
+              
+              } else {
+                 $vendor_id = 1;  
+               }
+			$vendorproduct_id = $this->model_vendor_vendor->getSellerChat($vendor_id);
 
 			if(!empty($vendorproduct_id['vendor_id'])){
 			$vendor_ids = $vendorproduct_id['vendor_id'];
@@ -46,7 +51,7 @@ class ControllerExtensionApi32vendorvendorprofile extends Controller {
 		if (isset($this->request->post['vendor_id'])) {
 			$vendor_id = (int)$this->request->post['vendor_id'];
 		} else {
-			$vendor_id = 0;
+			$vendor_id = 1;
 		}
 		/* 01-02-2019 */
 		if(isset($vendor_id)) {
@@ -411,7 +416,7 @@ class ControllerExtensionApi32vendorvendorprofile extends Controller {
 		if (isset($this->request->post['limit'])) {
 			$limit = (int)$this->request->post['limit'];
 		} else {
-			$limit = $this->config->get($this->config->get('config_theme') . '_product_limit');
+			$limit = 10;
 		}
 
 		if (isset($this->request->post['path'])) {
@@ -475,7 +480,7 @@ class ControllerExtensionApi32vendorvendorprofile extends Controller {
 
 		$product_total = $this->model_vendor_store->getTotalProducts($filter2);
 		$products = $this->model_vendor_store->getProducts($filter2);
-
+$data['count'] = false;
 		foreach($products as $product) {
 			if (is_file(DIR_IMAGE . $product['image'])){
 				$pimage = $this->model_tool_image->resize($product['image'],   $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_product_height'));
@@ -529,6 +534,7 @@ class ControllerExtensionApi32vendorvendorprofile extends Controller {
 				'href'   		=> $this->url->link('product/product','&product_id=' .$product['product_id']),
 				'wishlist' 	 =>$this->model_account_wishlist->getWishlistByproductId($product['product_id']),
 			);
+			$data['count'] = true;
 		}
 		$url ='';
 		
@@ -583,20 +589,20 @@ class ControllerExtensionApi32vendorvendorprofile extends Controller {
 								'filter_sub_category' => true
 							);
 							
-							$totalproducts = $this->model_vendor_store->getTotalProducts($filter_productdata1);
+						//	$totalproducts = $this->model_vendor_store->getTotalProducts($filter_productdata1);
 							  
-							if($totalproducts!=0){
+				//	if($totalproducts!=0){
 								$children_data1[] = array(
 									'category_id' => $child1['category_id'],
-									'name' => $child1['name'] . (' (' . $this->model_vendor_store->getTotalProducts($filter_productdata1) . ')')
+									'name' => $child1['name'] 
 
 								);
-							}
+				//	}
 						}
 						/* 29 01 2020 sub3 */
 					$children_data[] = array(
 						'category_id' => $child['category_id'],
-						'name' => $child['name'] . (' (' . $this->model_vendor_store->getTotalProducts($filter_productdata) . ')'),
+						'name' => $child['name'] ,
 						/* 29 01 2020 sub3 */
 						'children1'    => $children_data1,
 						/* 29 01 2020 sub3 */
@@ -620,17 +626,17 @@ class ControllerExtensionApi32vendorvendorprofile extends Controller {
 				'filter_sub_category' => true
 			);
 
-			$vcategorytotal = $this->model_vendor_store->getTotalProducts($filter_productdata);
+		//	$vcategorytotal = $this->model_vendor_store->getTotalProducts($filter_productdata);
 
-			if($vcategorytotal > 0){
+		//	if($vcategorytotal > 0){
 				$data['categories'][]=array(
 					'category_id' => $category['category_id'],
-					'categoryname' => $categoryname . (' (' . $vcategorytotal . ')'),
+					'categoryname' => str_replace('&amp;', '&', $categoryname) ,
 					'children'    => $children_data,
 
 				);
 
-			}
+		//	}
 
 
 		}
