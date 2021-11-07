@@ -204,6 +204,7 @@ class ControllerExtensionApi32AccountOrder extends Controller {
 
 				$json['products'][] = array(
 					'name'     => $product['name'],
+					'product_id'     => $product['product_id'],
 					'image'     => $image,
 					'model'    => $product['model'],
 					'option'   => $option_data,

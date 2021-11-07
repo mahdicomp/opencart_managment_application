@@ -1,5 +1,5 @@
 <?php
-class ControllerApi32AccountReturn extends Controller {
+class ControllerExtensionApi32AccountReturn extends Controller {
 	private $error = array();
 
 	public function index() {
