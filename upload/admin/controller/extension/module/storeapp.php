@@ -107,6 +107,12 @@ class ControllerExtensionModuleStoreapp extends Controller {
 		} else {
 			$data['storeapp_delivery_time'] = $this->config->get('storeapp_delivery_time');
 		}
+			
+		if (isset($this->request->post['storeapp_delivery_time_name'])) {
+			$data['storeapp_delivery_time_name'] = $this->request->post['storeapp_delivery_time_name'];
+		} else {
+			$data['storeapp_delivery_time_name'] = $this->config->get('storeapp_delivery_time_name');
+		}
 		
 		
 		
@@ -120,6 +126,10 @@ class ControllerExtensionModuleStoreapp extends Controller {
 		if (file_exists(DIR_APPLICATION . 'controller/extension/module/pincodedays.php')){
 		   $data['delivery_time_purchase']= true;
 		}
+
+		if (file_exists(DIR_APPLICATION . 'controller/extension/module/tmddeliverydatetime.php')){
+			$data['delivery_time_purchase']= true;
+		 }
 		
 		if (file_exists(DIR_APPLICATION . 'controller/extension/module/e_wallet.php')){
 		   $data['e_wallet_purchase']= true;

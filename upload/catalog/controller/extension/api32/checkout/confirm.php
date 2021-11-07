@@ -357,6 +357,27 @@ class ControllerExtensionApi32CheckoutConfirm extends Controller {
 			} else {
 				$order_data['accept_language'] = '';
 			}
+            
+
+          	// 15 05 2019 //
+			$data['tmdstatus'] 	= $this->config->get('module_tmddeliverydatetime_status');
+			if (isset($this->request->post['deliverydate'])) {
+				$order_data['deliverydate'] = $this->request->post['deliverydate'];
+				
+			}else{
+				$order_data['deliverydate'] =false;
+			
+			}
+
+			if (isset($this->request->post['deliverytime'])) {
+				$order_data['deliverytime'] = $this->request->post['deliverytime'];
+			
+			}else{
+				$order_data['deliverytime'] =false;
+			
+			}
+
+		// 15 05 2019 //
 
 			$this->load->model('checkout/order');
 

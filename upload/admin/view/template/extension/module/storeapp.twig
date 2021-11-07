@@ -352,7 +352,20 @@
                   </select>
                 </div>
 				</div>
-				
+					<div class="form-group">
+                <label class="col-sm-4 control-label" for="input-status">Delivery Date Time name</label>
+                <div class="col-sm-6">
+                  <select name="storeapp_delivery_time_name" id="input-status" class="form-control">
+                    {% if storeapp_delivery_time_name=='tmddeliverydatetime' %}
+                    <option value="tmddeliverydatetime" selected="selected">TMD Delivery Date Time</option>
+                    <option value="opencart_deliverydatetime">Delivery Date and Time Slot for Checkout</option>
+                    {% else %}
+                    <option value="tmddeliverydatetime">TMD Delivery Date Time</option>
+                    <option value="opencart_deliverydatetime" selected="selected">Delivery Date and Time Slot for Checkout</option>
+                    {% endif %}
+                  </select>
+                </div>
+				</div>
 				
 				 <h4> {{ section_support_system }}  </h4> 
 		        
